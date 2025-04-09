@@ -27,8 +27,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body>
-        <main className='h-screen flex flex-col justify-center items-center'>
-          <Navbar />
+        <main>
           {children}
         </main>
       </body>

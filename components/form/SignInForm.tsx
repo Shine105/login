@@ -8,7 +8,6 @@ import { Input } from "@/components/ui/input"
 import {
     Form,
     FormControl,
-    FormDescription,
     FormField,
     FormItem,
     FormLabel,
@@ -18,27 +17,38 @@ import Link from "next/link"
 import GoogleSignInButton from "../GoogleSignInButton"
 
 const formSchema = z.object({
-    email: z
-        .string()
-        .min(1, 'Email is required')
-        .min(8, 'Password must have more than 8 characters'),
-    password: z.string().min(1, 'Password is required').min(8, 'Password must have more than 8 characters'),
+    email: z.string().min(1, 'Email is required'),
+    password: z.string().min(1, 'Password is required').min(8, 'Password must be at least 8 characters'),
 })
-
 
 const SignInForm = () => {
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-    });
+    })
 
     const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values);
+        console.log(values)
     }
+
     return (
-        <div>
-            <Form {...form}>
-                <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-                    <div className="space-y-3">
+        <div className="min-h-screen flex font-sans">
+            {/* Left Side Panel */}
+            <div className="w-1/2 bg-[#EDE7FF] p-10 flex flex-col justify-between">
+                <div className="text-4xl font-bold text-[#6C4EFF]">InWord</div>
+                <div className="mt-40 px-10">
+                    <h2 className="text-2xl font-semibold">Welcome!</h2>
+                    <p className="text-xl font-bold mt-2">
+                        Build, Create, <span className="font-normal text-gray-400">and Innovate with Inword</span>
+                    </p>
+                </div>
+                <Link href="/" className="text-[#6C4EFF] mt-auto text-sm hover:underline">&lt; Back</Link>
+            </div>
+
+            {/* Right Side Panel */}
+            <div className="w-1/2 bg-white flex flex-col justify-center px-20">
+                <h2 className="text-2xl font-semibold mb-8 text-center">Login</h2>
+                <Form {...form}>
+                    <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
                         <FormField
                             control={form.control}
                             name="email"
@@ -46,12 +56,8 @@ const SignInForm = () => {
                                 <FormItem>
                                     <FormLabel>Email</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="tester@example.com"
-                                            {...field} />
+                                        <Input placeholder="example123" {...field} />
                                     </FormControl>
-                                    {/* <FormDescription>
-                                    This is your public display name.
-                                </FormDescription> */}
                                     <FormMessage />
                                 </FormItem>
                             )}
@@ -63,34 +69,44 @@ const SignInForm = () => {
                                 <FormItem>
                                     <FormLabel>Password</FormLabel>
                                     <FormControl>
-                                        <Input placeholder="Enter your password"
-                                            type="password"
-                                            {...field}
-                                        />
+                                        <Input type="password" placeholder="••••••••••" {...field} />
                                     </FormControl>
-                                    {/* <FormDescription>
-                                    This is your public display name.
-                                </FormDescription> */}
                                     <FormMessage />
                                 </FormItem>
                             )}
                         />
-                    </div>
-                    <Button className="w-full mt-6" type="submit">
-                        Sign in
-                    </Button>
-                </form>
-                <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-                    or
+                        <div className="flex items-center justify-between text-sm">
+                            <label className="flex items-center space-x-2">
+                                <input type="checkbox" className="accent-[#6C4EFF]" />
+                                <span>Remember Me</span>
+                            </label>
+                            <Link href="#" className="text-[#6C4EFF] hover:underline">Forgot Password?</Link>
+                        </div>
+                        <Button type="submit" className="w-full bg-[#6C4EFF] hover:bg-[#5a3ee7]">Login</Button>
+                    </form>
+                </Form>
+
+                <div className="my-4 flex items-center justify-center text-gray-500 text-sm">
+                    <div className="flex-grow border-t border-gray-300 mr-2" />
+                    Or
+                    <div className="flex-grow border-t border-gray-300 ml-2" />
                 </div>
+
                 <GoogleSignInButton>
-                    Sign in with Google
+                    <span className="flex items-center justify-center gap-2">
+                        <img src="/public/search.svg" alt="Google" className="w-5 h-5" />
+                        Login with Google
+                    </span>
                 </GoogleSignInButton>
-                <p className="text-center text-sm text-gray-600 mt-2">
-                    If you don&apos;t have an account, please&nbsp;
-                    <Link className="text-blue-500 hover:underline" href="/sign-up">Sign up</Link>
+
+                <p className="text-center text-sm text-gray-600 mt-6">
+                    Don’t have account? <Link href="/sign-up" className="text-[#6C4EFF] hover:underline">Create Account</Link>
                 </p>
-            </Form>
+
+                <footer className="mt-10 text-xs text-center text-gray-400">
+                    Terms & Condition • Privacy Policy
+                </footer>
+            </div>
         </div>
     )
 }

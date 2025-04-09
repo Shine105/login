@@ -66,100 +66,118 @@ const SignUpForm = () => {
   };
 
   return (
-    <div>
-      <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
-          <div className="space-y-2">
-            <FormField
-              control={form.control}
-              name="username"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Username</FormLabel>
-                  <FormControl>
-                    <Input placeholder="Victor Frankenstein" {...field} />
-                  </FormControl>
-                  {/* <FormDescription>
-                      This is your public display name.
-                    </FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Email</FormLabel>
-                  <FormControl>
-                    <Input placeholder="tester@example.com" {...field} />
-                  </FormControl>
-                  {/* <FormDescription>
-                      This is your public display name.
-                    </FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Enter your password"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  {/* <FormDescription>
-                      This is your public display name.
-                    </FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="confirmPassword"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Re-Enter your password</FormLabel>
-                  <FormControl>
-                    <Input
-                      placeholder="Confirm password"
-                      type="password"
-                      {...field}
-                    />
-                  </FormControl>
-                  {/* <FormDescription>
-                      This is your public display name.
-                    </FormDescription> */}
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          <Button className="w-full mt-6" type="submit">
-            Sign up
-          </Button>
-        </form>
-        <div className="mx-auto my-4 flex w-full items-center justify-evenly before:mr-4 before:block before:h-px before:flex-grow before:bg-stone-400 after:ml-4 after:block after:h-px after:flex-grow after:bg-stone-400">
-          or
+    <div className="min-h-screen flex font-sans">
+      {/* Left Side Panel */}
+      <div className="w-1/2 bg-[#EDE7FF] p-10 flex flex-col justify-between">
+        <div className="text-4xl font-bold text-[#6C4EFF]">InWord</div>
+        <div className="mt-40 px-10">
+          <h2 className="text-2xl font-semibold">Welcome!</h2>
+          <p className="text-xl font-bold mt-2">
+            Build, Create, <span className="font-normal text-gray-400">and Innovate with Inword</span>
+          </p>
         </div>
-        <GoogleSignInButton>Sign up with Google</GoogleSignInButton>
-        <p className="text-center text-sm text-gray-600 mt-2">
-          If you don&apos;t have an account, please&nbsp;
-          <Link className="text-blue-500 hover:underline" href="/sign-up">
-            Sign up
-          </Link>
-        </p>
-      </Form>
+        <Link href="/" className="text-[#6C4EFF] mt-auto text-sm hover:underline">&lt; Back</Link>
+      </div>
+
+      {/* Right Side Panel */}
+      <div className="w-1/2 bg-white flex flex-col justify-center px-20">
+        <h2 className="text-2xl font-semibold mb-8 text-center">Register</h2>
+        <Form {...form}>
+          <form onSubmit={form.handleSubmit(onSubmit)} className="w-full">
+            <div className="space-y-2">
+              <FormField
+                control={form.control}
+                name="username"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Username</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Victor Frankenstein" {...field} />
+                    </FormControl>
+                    {/* <FormDescription>
+                      This is your public display name.
+                    </FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Email</FormLabel>
+                    <FormControl>
+                      <Input placeholder="tester@example.com" {...field} />
+                    </FormControl>
+                    {/* <FormDescription>
+                      This is your public display name.
+                    </FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Enter your password"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    {/* <FormDescription>
+                      This is your public display name.
+                    </FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="confirmPassword"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Re-Enter your password</FormLabel>
+                    <FormControl>
+                      <Input
+                        placeholder="Confirm password"
+                        type="password"
+                        {...field}
+                      />
+                    </FormControl>
+                    {/* <FormDescription>
+                      This is your public display name.
+                    </FormDescription> */}
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            </div>
+            <Button type="submit" className="w-full mt-3 bg-[#6C4EFF] hover:bg-[#5a3ee7]">Login</Button>
+          </form>
+        </Form>
+        <div className="my-4 flex items-center justify-center text-gray-500 text-sm">
+          <div className="flex-grow border-t border-gray-300 mr-2" />
+          Or
+          <div className="flex-grow border-t border-gray-300 ml-2" />
+        </div>
+        <GoogleSignInButton>
+          <span className="flex items-center justify-center gap-2">
+            <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
+            Login with Google
+          </span>
+        </GoogleSignInButton>
+        <footer className="mt-10 text-xs text-center text-gray-400">
+          Terms & Condition • Privacy Policy
+        </footer>
+      </div>
     </div>
-  );
-};
+  )
+}
 
 export default SignUpForm;
