@@ -1,10 +1,11 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { z } from "zod";
+
 import {
   Form,
   FormControl,
@@ -158,7 +159,7 @@ const SignUpForm = () => {
                 )}
               />
             </div>
-            <Button type="submit" className="w-full mt-3 bg-[#6C4EFF] hover:bg-[#5a3ee7]">Login</Button>
+            <Button type="submit" className="w-full mt-3 bg-[#6C4EFF] hover:bg-[#5a3ee7]">Sign Up</Button>
           </form>
         </Form>
         <div className="my-4 flex items-center justify-center text-gray-500 text-sm">
@@ -166,9 +167,9 @@ const SignUpForm = () => {
           Or
           <div className="flex-grow border-t border-gray-300 ml-2" />
         </div>
-        <GoogleSignInButton>
+        <GoogleSignInButton className="bg-[#EDE7FF] text-black">
           <span className="flex items-center justify-center gap-2">
-            <img src="/google-icon.svg" alt="Google" className="w-5 h-5" />
+            <img src="/search.svg" alt="Google" className="w-5 h-5" />
             Login with Google
           </span>
         </GoogleSignInButton>

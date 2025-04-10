@@ -15,6 +15,10 @@ import {
 } from "@/components/ui/form"
 import Link from "next/link"
 import GoogleSignInButton from "../GoogleSignInButton"
+import { useRouter } from 'next/navigation'
+import { signIn } from "next-auth/react"
+import { toast } from "sonner"
+
 
 const formSchema = z.object({
     email: z.string().min(1, 'Email is required'),
@@ -22,13 +26,39 @@ const formSchema = z.object({
 })
 
 const SignInForm = () => {
+    const router = useRouter();
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
-    })
+        defaultValues: {
+            email: '',
+            password: '',
+        },
+    });
 
-    const onSubmit = (values: z.infer<typeof formSchema>) => {
-        console.log(values)
-    }
+    const onSubmit = async (values: z.infer<typeof formSchema>) => 
+    {
+        const signInData = await signIn('credentials', {
+            email: values.email,
+            password: values.password,
+            redirect: false
+        });
+        
+        if(signInData?.error) {
+            toast("ERROR", 
+            {
+                description: "Oops! Something went wrong!",
+                // action: {
+                //   label: "Undo",
+                //   onClick: () => console.log("Undo"),
+                // },
+            })
+        } else {
+            console.log("Login successful (client-side), redirecting to /admin");
+            router.refresh();
+            router.push('/admin');
+        }
+    };
+
 
     return (
         <div className="min-h-screen flex font-sans">
@@ -92,9 +122,9 @@ const SignInForm = () => {
                     <div className="flex-grow border-t border-gray-300 ml-2" />
                 </div>
 
-                <GoogleSignInButton>
+                <GoogleSignInButton className="bg-[#EDE7FF] text-black">
                     <span className="flex items-center justify-center gap-2">
-                        <img src="/public/search.svg" alt="Google" className="w-5 h-5" />
+                        <img src="/search.svg" alt="Google" className="w-5 h-5" />
                         Login with Google
                     </span>
                 </GoogleSignInButton>
