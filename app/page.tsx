@@ -20,5 +20,3 @@ export default function Home() {
 
 
 
-{/* <Link className="text-blue-500 hover:underline" href="/sign-in">Sign In</Link>
-        <Link className="text-blue-500 hover:underline" href="/sign-up">Sign Up</Link> */}

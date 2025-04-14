@@ -1,9 +1,15 @@
 import { PrismaAdapter } from "@next-auth/prisma-adapter";
-import { NextAuthOptions } from "next-auth";
+import { NextAuthOptions, User } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import { db } from "@/lib/prisma";
 import { compare } from "bcrypt";
 import GoogleProvider from "next-auth/providers/google";
+
+declare module 'next-auth' {
+  interface User {
+    role: string;
+  }
+}
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(db),
@@ -14,6 +20,7 @@ export const authOptions: NextAuthOptions = {
     pages: {
         signIn:'/sign-in' 
     },
+  
   providers: [
     GoogleProvider({
         clientId: process.env.GOOGLE_CLIENT_ID!,
@@ -49,7 +56,8 @@ export const authOptions: NextAuthOptions = {
         return{
             id: `${existingUser.id}`,
             username: existingUser.username,
-            email: existingUser.email
+            email: existingUser.email,
+            role: existingUser.role,
         }
       },
     }),
@@ -67,10 +75,11 @@ export const authOptions: NextAuthOptions = {
             ...session,
             user: {
                 ...session.user,
-                username: token.username
+                username: token.username,
             }
         }
         return session
     },
   }
 };
+ 
