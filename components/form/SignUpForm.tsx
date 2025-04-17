@@ -167,7 +167,7 @@ const SignUpForm = () => {
           Or
           <div className="flex-grow border-t border-gray-300 ml-2" />
         </div>
-        <GoogleSignInButton className="bg-[#EDE7FF] text-black">
+        <GoogleSignInButton className="bg-[#EDE7FF] text-black hover:bg-blue-200">
           <span className="flex items-center justify-center gap-2">
             <img src="/search.svg" alt="Google" className="w-5 h-5" />
             Login with Google

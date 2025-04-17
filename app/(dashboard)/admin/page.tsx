@@ -2,6 +2,12 @@ import { AdminChart } from '@/components/my-chart';
 import { authOptions } from '@/lib/auth';
 import { getServerSession } from 'next-auth';
 import { User } from 'next-auth'; // Import User type
+
+declare module 'next-auth' {
+  interface User {
+    role: string;
+  }
+}
 import React from 'react';
 import UserAccountnav from '@/components/UserAccountnav';
 

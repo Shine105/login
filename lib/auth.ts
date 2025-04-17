@@ -5,11 +5,6 @@ import { db } from "@/lib/prisma";
 import { compare } from "bcrypt";
 import GoogleProvider from "next-auth/providers/google";
 
-declare module 'next-auth' {
-  interface User {
-    role: string;
-  }
-}
 
 export const authOptions: NextAuthOptions = {
     adapter: PrismaAdapter(db),
@@ -66,6 +61,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
         if (user) {
             token.username = user.username;
+            token.role = user.role;
         }
         return token;
     },
@@ -76,6 +72,7 @@ export const authOptions: NextAuthOptions = {
             user: {
                 ...session.user,
                 username: token.username,
+                role: token.role,
             }
         }
         return session
