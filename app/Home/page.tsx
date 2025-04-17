@@ -9,7 +9,7 @@ const Home = () => {
         <nav className="space-x-4">
           <button className="hover:underline">Home</button>
           <button className="hover:underline">My Books</button>
-          <button className="hover:underline">Browse</button>
+          <button className="hover:underline"><a href='/Browse'>Browse</a></button>
           <button className="hover:underline">Community</button>
         </nav>
       </header>
