@@ -68,3 +68,14 @@ model VerificationToken {
   @@unique([identifier, token])
   @@map("verification_tokens")
 }
+
+model ReadingStatus {
+  id        String   @id @default(cuid())
+  userId    String
+  bookId    String
+  status    String   // e.g., "reading", "completed", "want to read"
+  progress  Int?     // optional % or pages
+  updatedAt DateTime @updatedAt
+
+  @@unique([userId, bookId])
+}

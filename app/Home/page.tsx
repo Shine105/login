@@ -1,18 +1,42 @@
 import React from 'react';
+import { authOptions } from '@/lib/auth';
+import { getServerSession } from 'next-auth';
+declare module 'next-auth' {
+  interface User {
+    role: string;
+  }
+}
+import UserAccountnav from '@/components/UserAccountnav';
+import UserHeader from '@/components/UserHeader';
+import { getCurrentlyReading } from '@/lib/getCurrentlyReading';
 
-const Home = () => {
+
+const UserPage = async () => {
+  const session = await getServerSession(authOptions);
+
+if (!session || session.user.role !== 'user') {
+  return (
+    <div className="min-h-screen flex items-center justify-center text-xl text-red-500">
+      You are not authorized to view this page.
+    </div>
+  );
+}
+
+const currentlyReading = await getCurrentlyReading(session.user.id);
+
+
   return (
     <div className="min-h-screen bg-beige text-gray-800 font-sans p-4 md:p-8">
-      {/* Header */}
-      <header className="flex justify-between items-center border-b pb-4">
-        <h1 className="text-2xl font-bold text-brown">InWord</h1>
-        <nav className="space-x-4">
-          <button className="hover:underline">Home</button>
-          <button className="hover:underline">My Books</button>
-          <button className="hover:underline"><a href='/Browse'>Browse</a></button>
-          <button className="hover:underline">Community</button>
-        </nav>
-      </header>
+      <UserHeader session={session} />
+
+      <div className="flex items-center justify-between mt-4">
+        <div className="text-sm text-gray-700 italic">
+          Hi, <span className="font-semibold">{session.user.name?.split(' ')[0]}</span>
+        </div>
+        <span className="text-sm bg-gray-100 px-2 py-1 rounded hover:bg-gray-200 inline-block">
+          <UserAccountnav />
+        </span>
+      </div>
 
       {/* Main Content */}
       <main className="grid md:grid-cols-3 gap-6 mt-6">
@@ -20,32 +44,26 @@ const Home = () => {
         <section className="md:col-span-1">
           <h2 className="text-xl font-semibold mb-4">Currently Reading</h2>
           <div className="space-y-4">
-            <div className="border p-4 rounded shadow-sm">
-              <p className="font-semibold">The Cooking of Books</p>
-              <p className="text-sm text-gray-600">by Ramachandra Guha</p>
-              <div className="bg-gray-200 rounded-full h-2 mt-2 w-full">
-                <div className="bg-brown h-2 rounded-full w-1/4"></div>
-              </div>
-              <button className="text-xs text-blue-600 mt-2">Update progress</button>
-            </div>
+            {currentlyReading.length === 0 && (
+              <p className="text-sm text-gray-600 italic">You're not reading any books currently.</p>
+            )}
 
-            <div className="border p-4 rounded shadow-sm">
-              <p className="font-semibold">Book Lovers</p>
-              <p className="text-sm text-gray-600">by Emily Henry</p>
-              <div className="bg-gray-200 rounded-full h-2 mt-2 w-full">
-                <div className="bg-brown h-2 rounded-full w-1/5"></div>
+            {currentlyReading.map((entry) => (
+              <div key={entry.bookId} className="border p-4 rounded shadow-sm">
+                <p className="font-semibold">{entry.bookId}</p> {/* For now just showing the ID */}
+                <div className="bg-gray-200 rounded-full h-2 mt-2 w-full">
+                  <div
+                    className="bg-brown h-2 rounded-full"
+                    style={{ width: `${entry.progress || 0}%` }}
+                  />
+                </div>
+                <button className="text-xs text-blue-600 mt-2">Update progress</button>
               </div>
-              <button className="text-xs text-blue-600 mt-2">Update progress</button>
-            </div>
+            ))}
           </div>
+
 
           {/* Reading Challenge */}
-          <div className="mt-6 p-4 border rounded shadow-sm">
-            <h3 className="font-bold text-lg">2025 Reading Challenge</h3>
-            <p className="text-2xl mt-2">4 books completed</p>
-            <p className="text-sm text-gray-600">1 book behind schedule</p>
-          </div>
-
           <div className="mt-6 p-4 border rounded shadow-sm">
             <h3 className="font-bold text-lg">2025 Reading Challenge</h3>
             <p className="text-2xl mt-2">4 books completed</p>
@@ -95,4 +113,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default UserPage;

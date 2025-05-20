@@ -1,5 +1,7 @@
 'use client'
 import React, { useState } from 'react';
+import Link from 'next/link';
+import { generateBookSlug } from '@/util/page';
 
 const Browse = () => {
   const [query, setQuery] = useState('');
@@ -99,9 +101,10 @@ const Browse = () => {
                     ? info.description.slice(0, 120) + '...'
                     : 'No description available.'}
                 </p>
-                <button className="mt-3 text-sm text-blue-600 hover:underline">
-                  Read more →
-                </button>
+                <Link href={`/book/${generateBookSlug(info.title)}`}>
+                  <span className="text-sm text-blue-600 hover:underline mt-auto">Read more →</span>
+                </Link>
+
               </div>
             </div>
           );
