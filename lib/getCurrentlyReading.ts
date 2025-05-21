@@ -18,6 +18,8 @@ export async function getCurrentlyReading(userId: string) {
         const data = await res.json();
         const info = data.volumeInfo;
 
+        const totalPages = info?.pageCount || entry.totalPages || null;
+
         return {
           bookId: entry.bookId,
           status: entry.status,
@@ -25,6 +27,9 @@ export async function getCurrentlyReading(userId: string) {
           title: info?.title || 'Unknown Title',
           author: info?.authors?.join(', ') || 'Unknown Author',
           thumbnail: info?.imageLinks?.thumbnail || null,
+          pagesRead: entry.pagesRead || 0,
+          totalPages,
+          progress: entry.pagesRead && totalPages ? Math.floor((entry.pagesRead / totalPages) * 100) : 0,
         };
       } catch (err) {
         console.error('Error fetching book details:', err);
@@ -35,6 +40,9 @@ export async function getCurrentlyReading(userId: string) {
           title: 'Unknown Title',
           author: 'Unknown Author',
           thumbnail: null,
+          pagesRead: entry.pagesRead || 0,
+          totalPages: entry.totalPages || null,
+          progress: entry.pagesRead && entry.totalPages ? Math.floor((entry.pagesRead / entry.totalPages) * 100) : 0,
         };
       }
     })

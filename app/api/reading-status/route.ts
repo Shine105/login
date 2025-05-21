@@ -11,7 +11,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const { bookId, status } = await req.json();
+  const { bookId, status, pagesRead, totalPages } = await req.json();
 
   const user = await db.user.findUnique({
     where: { email: session.user.email },
@@ -22,6 +22,21 @@ export async function POST(req: NextRequest) {
   }
 
   try {
+    const existing = await db.readingStatus.findUnique({
+      where: {
+        userId_bookId: {
+          userId: user.id,
+          bookId,
+
+        },
+      },
+    });
+
+    const finalTotalPages = totalPages ?? existing?.totalPages;
+    const progress = pagesRead && finalTotalPages
+      ? Math.round((pagesRead / finalTotalPages) * 100)
+      : existing?.progress ?? null;
+
     await db.readingStatus.upsert({
       where: {
         userId_bookId: {
@@ -29,11 +44,19 @@ export async function POST(req: NextRequest) {
           bookId,
         },
       },
-      update: { status },
+      update: {
+        status,
+        pagesRead,
+        totalPages: finalTotalPages,
+        progress,
+      },
       create: {
         userId: user.id,
         bookId,
         status,
+        pagesRead,
+        totalPages: finalTotalPages,
+        progress,
       },
     });
 

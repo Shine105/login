@@ -9,6 +9,8 @@ declare module 'next-auth' {
 import UserAccountnav from '@/components/UserAccountnav';
 import UserHeader from '@/components/UserHeader';
 import { getCurrentlyReading } from '@/lib/getCurrentlyReading';
+import ReadingCard from '@/components/ReadingCard';
+
 
 
 const UserPage = async () => {
@@ -22,7 +24,7 @@ const UserPage = async () => {
     );
   }
 
-  const currentlyReading = await getCurrentlyReading(session.user.id);
+const currentlyReading = await getCurrentlyReading(session.user.id);
 
 
   return (
@@ -51,42 +53,9 @@ const UserPage = async () => {
             )}
 
             {currentlyReading.map((entry) => (
-              <div
-                key={entry.bookId}
-                className="flex flex-col md:flex-row bg-white border rounded-lg shadow-sm overflow-hidden"
-              >
-                {entry.thumbnail && (
-                  <div className="p-3 md:p-4 flex-shrink-0">
-                    <img
-                      src={entry.thumbnail}
-                      alt={entry.title}
-                      className="w-24 h-auto rounded shadow-sm"
-                    />
-                  </div>
-                )}
-
-                <div className="flex flex-col justify-between p-3 md:p-4 flex-grow">
-                  <div>
-                    <h3 className="text-lg font-semibold text-gray-900">{entry.title}</h3>
-                    <p className="text-sm text-gray-600 italic mb-3">by {entry.author}</p>
-                  </div>
-
-                  <div>
-                    <div className="bg-gray-200 rounded-full h-2 w-full">
-                      <div
-                        className="bg-brown h-2 rounded-full"
-                        style={{ width: `${(entry as any).progress ?? 0}%` }}
-                      />
-                    </div>
-                    <button className="text-xs text-indigo-600 mt-2 hover:underline">
-                      Update progress
-                    </button>
-                  </div>
-                </div>
-              </div>
+              <ReadingCard key={entry.bookId} entry={entry} />
             ))}
           </div>
-
 
           {/* Reading Challenge */}
           <div className="mt-6 p-4 border rounded shadow-sm">

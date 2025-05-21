@@ -70,12 +70,14 @@ model VerificationToken {
 }
 
 model ReadingStatus {
-  id        String   @id @default(cuid())
-  userId    String
-  bookId    String
-  status    String   // e.g., "reading", "completed", "want to read"
-  progress  Int?     // optional % or pages
-  updatedAt DateTime @updatedAt
+  id          String   @id @default(cuid())
+  userId      String
+  bookId      String
+  status      String   // e.g., "reading", "completed", "want to read"
+  progress    Int?     // optional percentage
+  pagesRead   Int?     // number of pages read
+  totalPages  Int?     // total pages in the book
+  updatedAt   DateTime @updatedAt
 
   @@unique([userId, bookId])
 }
